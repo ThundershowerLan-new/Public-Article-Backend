@@ -9,7 +9,7 @@ pub(crate) async fn index(database: web::Data<Database>) -> Result<HttpResponse,
         "articles": database
             .connect()
             .map_err(|_| error::ErrorInternalServerError("Internal Server Error"))?
-            .query_articles("SELECT id, title FROM articles WHERE id > 0", params![])
+            .query_articles("SELECT id, title FROM articles WHERE id > 10", params![])
             .await?
     })))
 }
