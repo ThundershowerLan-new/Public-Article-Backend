@@ -15,3 +15,7 @@ ORIGIN = "http://127.0.0.1:8089"
 deploymentTarget = "cloudrun"
 build = ["sh", "-c", "cargo build --release"]
 run = ["sh", "-c", "target/release/Public-Article"]
+
+[[ports]]
+localPort = 5000
+externalPort = 80
