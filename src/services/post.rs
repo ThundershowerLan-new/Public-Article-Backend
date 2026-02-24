@@ -1,5 +1,9 @@
 use crate::utils::*;
-use actix_web::{Error, HttpRequest, HttpResponse, cookie::Cookie, error, post, web};
+use actix_web::{
+    Error, HttpRequest, HttpResponse,
+    cookie::{Cookie, SameSite},
+    error, post, web,
+};
 use libsql::{Database, params};
 use serde_json::{Value, json};
 
@@ -41,6 +45,8 @@ pub(crate) async fn user(
                 Cookie::build("password", password)
                     .path("/")
                     .http_only(true)
+                    .same_site(SameSite::None)
+                    .secure(true)
                     .finish()
             ).json(json!({
             "id": row.get_u64(0)?
@@ -54,11 +60,13 @@ pub(crate) async fn user(
                 .ok_or(error::ErrorNotFound("Not Found"))?;
 
             if password == row.get_string(1)? {
-                Ok(HttpResponse::Ok()
+                Ok(HttpResponse::Found()
                     .cookie(
                         Cookie::build("password", password)
                             .path("/")
                             .http_only(true)
+                            .same_site(SameSite::None)
+                            .secure(true)
                             .finish()
                     ).json(json!({
                         "id": row.get_u64(0)?

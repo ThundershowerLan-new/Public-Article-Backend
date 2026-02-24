@@ -43,6 +43,8 @@ pub(crate) async fn user(
             Cookie::build("password", password)
                 .path("/")
                 .http_only(true)
+                .same_site(SameSite::None)
+                .secure(true)
                 .finish(),
         )
         .finish())
