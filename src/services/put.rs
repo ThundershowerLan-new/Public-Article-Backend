@@ -1,5 +1,9 @@
 use crate::utils::*;
-use actix_web::{Error, HttpRequest, HttpResponse, cookie::Cookie, error, put, web};
+use actix_web::{
+    Error, HttpRequest, HttpResponse,
+    cookie::{Cookie, SameSite},
+    error, put, web,
+};
 use libsql::{Database, params};
 use serde_json::Value;
 
