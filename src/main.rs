@@ -3,6 +3,7 @@ mod utils;
 
 use crate::services::*;
 use crate::utils::initialize_database;
+use actix_cors::Cors;
 use actix_web::middleware::Logger;
 use actix_web::{App, HttpServer, Scope};
 use std::env;
@@ -17,6 +18,13 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         App::new()
+            .wrap(
+                Cors::default()
+                    .allow_any_origin()
+                    .allow_any_method()
+                    .allow_any_header()
+                    .supports_credentials(),
+            )
             .app_data(database.clone())
             .wrap(Logger::default())
             .service(Scope::new("/").service(get::index).service(post::index))
