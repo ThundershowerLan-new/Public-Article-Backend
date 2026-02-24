@@ -20,7 +20,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .wrap(
                 Cors::default()
-                    .allow_any_origin()
+                    .allowed_origin(env::var("ORIGIN").expect("Failed to get ORIGIN").as_str())
                     .allow_any_method()
                     .allow_any_header()
                     .supports_credentials(),
